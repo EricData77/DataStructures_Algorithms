@@ -19,17 +19,19 @@ class HashTable {
             // this.data[address].push(key,value);
             // console.log(this.data);
         }
-        this.data[address].push(key,value);
-        return this.data;
+        this.data[address].push([key,value]); // push an array to data array
         console.log(this.data);
+        return this.data;
     }
 
     get(key) {
         let address = this._hash(key);
         const currentBucket = this.data[address];
-        if(currentBucket.length){
+        // console.log(currentBucket[1]);
+        if(currentBucket){
             for (let i = 0; i < currentBucket.length; i++){
                 if (currentBucket[i][0] === key) {
+                    console.log(currentBucket[i][1]);
                     return currentBucket[i][1];
                 }
             }
@@ -46,4 +48,5 @@ const myHashTable = new HashTable(2); // Number here is the space for address of
 myHashTable.set('grapes', 10000);
 myHashTable.set('apple', 23);
 myHashTable.set('banana', 23);
-console.log(myHashTable.get('apple'));
+myHashTable.get('apple');
+myHashTable.get('banana');
