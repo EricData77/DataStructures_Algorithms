@@ -2,15 +2,17 @@ class Node {
     constructor(value) {
         this.value = value;
         this.next = null;
+        this.prev = null;
     }
 }
 
 
-class LinkedList {
+class DoubleLinkedList {
     constructor(value) {
         this.head = {
             value: value,
-            next: null
+            next: null,
+            prev: null
         } 
         this.tail = this.head; // pointer to this.head address.
         this.length = 1;
@@ -19,9 +21,11 @@ class LinkedList {
     append(value) {
         const newNodes = {
             value:value,
-            next: null
+            next: null,
+            prev: null
         }
         // OR const newNodes = new Node(value);
+        newNodes.prev = this.tail;
         // Appends newNodes into the existing tail - also mean this.head address
         this.tail.next = newNodes;
         // the new tail is the newNodes that have added - the tail.next now is null
@@ -35,11 +39,13 @@ class LinkedList {
             value: value,
             // next pointer to the existing head
             // next: this.head -- OR
-            next: null // more easy to form newNodes to class.
+            next: null, // more easy to form newNodes to class.
+            prev: null
         }
         // next pointer to the existing head
         newNodes.next = this.head;
         // set new head for newNodes that prepended.
+        this.head.prev = newNodes;
         this.head = newNodes;
         this.length++;
         return this;
@@ -74,12 +80,14 @@ class LinkedList {
         }
         const newNodes = new Node(value);
         const leader = this.traverserToIndex(index - 1); // O(n)
-        // store the current node after insert index to holdingPointer
-        const holdingPointer = leader.next;
+        // store the current node after insert index to follower
+        const follower = leader.next;
+        newNodes.prev = leader;
         // add newNodes to insert index
         leader.next = newNodes; 
-        // point newNodes to holdingPointer to connect to the last part of the list.
-        newNodes.next = holdingPointer;
+        // point newNodes to follower to connect to the last part of the list.
+        newNodes.next = follower;
+        follower.prev = newNodes;
         this.length++;
         return this;
     }
@@ -94,37 +102,18 @@ class LinkedList {
         return this.printList();
     }
 
-    reverse() {
-        if (!this.head.next) {
-            return this.head;
-        }
-        let first = this.head;
-        // Assign new tail is the existing head
-        this.tail = this.head
-        let second = first.next;
-        while(second) {
-            const temp = second.next;
-            second.next = first;
-            first = second;
-            second = temp;
-        }
-        // The existing head will be turn to the end of list --> so its need should be null
-        this.head.next = null;
-        // Assign new head
-        this.head = first;
-        return this.printList();
-    }
+
 } 
 
-const myLinkedList = new LinkedList(10);
-myLinkedList.append(10);
+const myLinkedList = new DoubleLinkedList(10);
 myLinkedList.append(5);
+myLinkedList.append(16);
 myLinkedList.prepend(20);
-myLinkedList.prepend(3);
+// myLinkedList.prepend(3);
 console.log(myLinkedList);
 
-// myLinkedList.traverserToIndex(2);
-myLinkedList.insert(99, 77);
+// // myLinkedList.traverserToIndex(2);
+// myLinkedList.insert(99, 77);
 myLinkedList.insert(3, 21);
 myLinkedList.printList();
-myLinkedList.reverse();
+// myLinkedList.remove(3)
