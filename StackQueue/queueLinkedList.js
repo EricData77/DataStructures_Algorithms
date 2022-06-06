@@ -9,7 +9,7 @@ class Queue {
     constructor() {
         this.first = null;
         this.last = null;
-        this.length = null;
+        this.length = 0;
     }
 
     peek() {
@@ -28,20 +28,30 @@ class Queue {
         this.length ++ ;
         console.log(this);
         return this;
-
-
     }
     dequeue() {
+        if (!this.first) {
+            return null;
+        }
+        if (this.first === this.last) {
+            this.last = null;
+        }
+        this.first = this.first.next;
+        this.length --;
+        console.log(this);
+        return this;
 
     }
 
 }
 
-const queue = new Queue();
-queue.enqueue('google');
-// queue.enqueue('udemy');
-// queue.enqueue('discord');
-// queue.peek();
-// queue.pop();
-// queue.pop();
-// queue.pop();
+const myQueue = new Queue();
+myQueue.peek();
+myQueue.enqueue('Joy');
+myQueue.enqueue('Matt');
+myQueue.enqueue('Pavel');
+myQueue.peek();
+myQueue.dequeue();
+myQueue.dequeue();
+myQueue.dequeue();
+myQueue.peek();

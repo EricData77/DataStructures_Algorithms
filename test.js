@@ -1,42 +1,53 @@
-class HashTable {
-  constructor(size){
-    this.data = new Array(size);
-    // this.data = [];
-  }
-
-  _hash(key) {
-    let hash = 0;
-    for (let i =0; i < key.length; i++){
-        hash = (hash + key.charCodeAt(i) * i) % this.data.length
-    }
-    return hash;
-  }
-
-  set(key, value) {
-    let address = this._hash(key);
-    if (!this.data[address]) {
-      this.data[address] = [];
-    }
-    this.data[address].push([key, value]);
-    return this.data;
-  }
-
-  get(key){
-    const address = this._hash(key);
-    const currentBucket = this.data[address]
-    if (currentBucket) {
-      for(let i = 0; i < currentBucket.length; i++){
-        if(currentBucket[i][0] === key) {
-          return currentBucket[i][1]
-        }
-      }
-    }
-    return undefined;
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
   }
 }
 
-const myHashTable = new HashTable(50);
-myHashTable.set('grapes', 10000)
-myHashTable.get('grapes')
-myHashTable.set('apples', 9)
-myHashTable.get('apples')
+class Queue {
+  constructor(){
+    this.first = null;
+    this.last = null;
+    this.length = 0;
+  }
+  peek() {
+    return this.first;
+  }
+  enqueue(value){
+    const newNode = new Node(value);
+    if (this.length === 0) {
+      this.first = newNode;
+      this.last = newNode;
+    } else {
+      this.last.next = newNode;
+      this.last = newNode;
+    }
+    this.length++;
+    return this;
+  }
+  dequeue(){
+    if (!this.first) {
+      return null;
+    }
+    if (this.first === this.last) {
+      this.last = null;
+    }
+    const holdingPointer = this.first;
+    this.first = this.first.next;
+    this.length--;
+    return this;
+  }
+  //isEmpty;
+}
+
+const myQueue = new Queue();
+myQueue.peek();
+myQueue.enqueue('Joy');
+myQueue.enqueue('Matt');
+myQueue.enqueue('Pavel');
+myQueue.peek();
+myQueue.dequeue();
+myQueue.dequeue();
+myQueue.dequeue();
+myQueue.peek();
