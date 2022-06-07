@@ -1,53 +1,63 @@
 class Node {
-  constructor(value) {
+  constructor(value){
+    this.left = null;
+    this.right = null;
     this.value = value;
-    this.next = null;
   }
 }
 
-class Queue {
+class BinarySearchTree {
   constructor(){
-    this.first = null;
-    this.last = null;
-    this.length = 0;
+    this.root = null;
   }
-  peek() {
-    return this.first;
-  }
-  enqueue(value){
+  insert(value){
     const newNode = new Node(value);
-    if (this.length === 0) {
-      this.first = newNode;
-      this.last = newNode;
+    if (this.root === null) {
+      this.root = newNode;
     } else {
-      this.last.next = newNode;
-      this.last = newNode;
+      let currentNode = this.root;
+      while(true){
+        if(value < currentNode.value){
+          //Left
+          if(!currentNode.left){
+            currentNode.left = newNode;
+            return this;
+          }
+          currentNode = currentNode.left;
+        } else {
+          //Right
+          if(!currentNode.right){
+            currentNode.right = newNode;
+            return this;
+          } 
+          currentNode = currentNode.right;
+        }
+      }
     }
-    this.length++;
-    return this;
   }
-  dequeue(){
-    if (!this.first) {
-      return null;
-    }
-    if (this.first === this.last) {
-      this.last = null;
-    }
-    const holdingPointer = this.first;
-    this.first = this.first.next;
-    this.length--;
-    return this;
+  lookup(value){
+    //Code here
   }
-  //isEmpty;
+  // remove
 }
 
-const myQueue = new Queue();
-myQueue.peek();
-myQueue.enqueue('Joy');
-myQueue.enqueue('Matt');
-myQueue.enqueue('Pavel');
-myQueue.peek();
-myQueue.dequeue();
-myQueue.dequeue();
-myQueue.dequeue();
-myQueue.peek();
+const tree = new BinarySearchTree();
+tree.insert(9)
+tree.insert(4)
+tree.insert(6)
+tree.insert(20)
+tree.insert(170)
+tree.insert(15)
+tree.insert(1)
+JSON.stringify(traverse(tree.root))
+
+//     9
+//  4     20
+//1  6  15  170
+
+function traverse(node) {
+  const tree = { value: node.value };
+  tree.left = node.left === null ? null : traverse(node.left);
+  tree.right = node.right === null ? null : traverse(node.right);
+  return tree;
+}
