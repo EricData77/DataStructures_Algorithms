@@ -1,63 +1,51 @@
-class Node {
-  constructor(value){
-    this.left = null;
-    this.right = null;
-    this.value = value;
-  }
-}
+class Graph { 
+  constructor() { 
+    this.numberOfNodes = 0;
+    this.adjacentList = {
+    }; 
+  } 
+  addVertex(node)  { 
+  } 
+  addEdge(node1, node2) { 
+    //undirected Graph 
+  } 
+  showConnections() { 
+    const allNodes = Object.keys(this.adjacentList); 
+    for (let node of allNodes) { 
+      let nodeConnections = this.adjacentList[node]; 
+      let connections = ""; 
+      let vertex;
+      for (vertex of nodeConnections) {
+        connections += vertex + " ";
+      } 
+      console.log(node + "-->" + connections); 
+    } 
+} 
+} 
 
-class BinarySearchTree {
-  constructor(){
-    this.root = null;
-  }
-  insert(value){
-    const newNode = new Node(value);
-    if (this.root === null) {
-      this.root = newNode;
-    } else {
-      let currentNode = this.root;
-      while(true){
-        if(value < currentNode.value){
-          //Left
-          if(!currentNode.left){
-            currentNode.left = newNode;
-            return this;
-          }
-          currentNode = currentNode.left;
-        } else {
-          //Right
-          if(!currentNode.right){
-            currentNode.right = newNode;
-            return this;
-          } 
-          currentNode = currentNode.right;
-        }
-      }
-    }
-  }
-  lookup(value){
-    //Code here
-  }
-  // remove
-}
+const myGraph = new Graph();
+myGraph.addVertex('0');
+myGraph.addVertex('1');
+myGraph.addVertex('2');
+myGraph.addVertex('3');
+myGraph.addVertex('4');
+myGraph.addVertex('5');
+myGraph.addVertex('6');
+myGraph.addEdge('3', '1'); 
+myGraph.addEdge('3', '4'); 
+myGraph.addEdge('4', '2'); 
+myGraph.addEdge('4', '5'); 
+myGraph.addEdge('1', '2'); 
+myGraph.addEdge('1', '0'); 
+myGraph.addEdge('0', '2'); 
+myGraph.addEdge('6', '5');
 
-const tree = new BinarySearchTree();
-tree.insert(9)
-tree.insert(4)
-tree.insert(6)
-tree.insert(20)
-tree.insert(170)
-tree.insert(15)
-tree.insert(1)
-JSON.stringify(traverse(tree.root))
-
-//     9
-//  4     20
-//1  6  15  170
-
-function traverse(node) {
-  const tree = { value: node.value };
-  tree.left = node.left === null ? null : traverse(node.left);
-  tree.right = node.right === null ? null : traverse(node.right);
-  return tree;
-}
+myGraph.showConnections(); 
+//Answer:
+// 0-->1 2 
+// 1-->3 2 0 
+// 2-->4 1 0 
+// 3-->1 4 
+// 4-->3 2 5 
+// 5-->4 6 
+// 6-->5
