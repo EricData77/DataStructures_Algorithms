@@ -1,51 +1,41 @@
-class Graph { 
-  constructor() { 
-    this.numberOfNodes = 0;
-    this.adjacentList = {
-    }; 
-  } 
-  addVertex(node)  { 
-  } 
-  addEdge(node1, node2) { 
-    //undirected Graph 
-  } 
-  showConnections() { 
-    const allNodes = Object.keys(this.adjacentList); 
-    for (let node of allNodes) { 
-      let nodeConnections = this.adjacentList[node]; 
-      let connections = ""; 
-      let vertex;
-      for (vertex of nodeConnections) {
-        connections += vertex + " ";
-      } 
-      console.log(node + "-->" + connections); 
-    } 
-} 
-} 
+const numbers = [99, 44, 6, 2, 1, 5, 63, 87, 283, 4, 0];
 
-const myGraph = new Graph();
-myGraph.addVertex('0');
-myGraph.addVertex('1');
-myGraph.addVertex('2');
-myGraph.addVertex('3');
-myGraph.addVertex('4');
-myGraph.addVertex('5');
-myGraph.addVertex('6');
-myGraph.addEdge('3', '1'); 
-myGraph.addEdge('3', '4'); 
-myGraph.addEdge('4', '2'); 
-myGraph.addEdge('4', '5'); 
-myGraph.addEdge('1', '2'); 
-myGraph.addEdge('1', '0'); 
-myGraph.addEdge('0', '2'); 
-myGraph.addEdge('6', '5');
+function quickSort(array, left, right){
+  const len = array.length; 
+  let pivot;
+  let partitionIndex;
 
-myGraph.showConnections(); 
-//Answer:
-// 0-->1 2 
-// 1-->3 2 0 
-// 2-->4 1 0 
-// 3-->1 4 
-// 4-->3 2 5 
-// 5-->4 6 
-// 6-->5
+  if(left < right) {
+    pivot = right;
+    partitionIndex = partition(array, pivot, left, right);
+    
+    //sort left and right
+    quickSort(array, left, partitionIndex - 1);
+    quickSort(array, partitionIndex + 1, right);
+  }
+  return array;
+}
+   
+function partition(array, pivot, left, right){
+  let pivotValue = array[pivot];
+  let partitionIndex = left;
+
+  for(let i = left; i < right; i++) {
+    if(array[i] < pivotValue){
+      swap(array, i, partitionIndex);
+      partitionIndex++;
+    }
+  }
+  swap(array, right, partitionIndex);
+  return partitionIndex;
+}
+
+function swap(array, firstIndex, secondIndex){
+    var temp = array[firstIndex];
+    array[firstIndex] = array[secondIndex];
+    array[secondIndex] = temp;
+}
+
+//Select first and last index as 2nd and 3rd parameters
+quickSort(numbers, 0, numbers.length - 1);
+console.log(numbers);
