@@ -1,20 +1,22 @@
-const numsArray = [1, 3, 7, 9, 2];
-const targetToFind = 11;
+const heightsArray = [4,8,1,2,3,9];
 
+const getMaxWaterContainer = function(heights) {
+  let p1 = 0, p2 = heights.length - 1, maxArea = 0;
 
-const findTwoSum = function(nums, target) {
-  for(let p1 = 0; p1 < nums.length; p1++) {
+  while(p1 < p2) {
+    const height = Math.min(heights[p1], heights[p2]);
+    const width = p2 - p1;
+    const area = height * width;
+    maxArea = Math.max(maxArea, area);
     
-    const numberToFind = target - nums[p1];
-
-    for(let p2 = p1 + 1; p2 < nums.length; p2++) {
-      if(numberToFind === nums[p2]) {
-        return [p1, p2];
-      }
+    if(heights[p1] <= heights[p2]) {
+      p1++;
+    } else {
+      p2--;
     }
   }
 
-  return null;
-};
+  return maxArea;
+}
 
-console.log(findTwoSum(numsArray, targetToFind));
+console.log(getMaxWaterContainer(heightsArray));
