@@ -1,22 +1,29 @@
-const heightsArray = [4,8,1,2,3,9];
+const elevationArray = [0, 1, 0, 2, 1, 0, 3, 1, 0, 1, 2]
 
-const getMaxWaterContainer = function(heights) {
-  let p1 = 0, p2 = heights.length - 1, maxArea = 0;
+const getTrappedRainwater = function(heights) {
+  let totalWater = 0;
+  
+  for(let p = 0; p < heights.length; p++) {
+    let leftP = p, rightP = p, maxLeft = 0, maxRight = 0;
 
-  while(p1 < p2) {
-    const height = Math.min(heights[p1], heights[p2]);
-    const width = p2 - p1;
-    const area = height * width;
-    maxArea = Math.max(maxArea, area);
+    while(leftP >= 0) {
+      maxLeft = Math.max(maxLeft, heights[leftP]);
+      leftP--;
+    }
+
+    while(rightP < heights.length) {
+      maxRight = Math.max(maxRight, heights[rightP]);
+      rightP++;
+    }
     
-    if(heights[p1] <= heights[p2]) {
-      p1++;
-    } else {
-      p2--;
+    const currentWater = Math.min(maxLeft, maxRight) - heights[p];
+    
+    if(currentWater >= 0) {
+      totalWater += currentWater;
     }
   }
 
-  return maxArea;
+  return totalWater;
 }
 
-console.log(getMaxWaterContainer(heightsArray));
+console.log(getTrappedRainwater(elevationArray));
