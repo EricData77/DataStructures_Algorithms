@@ -1,34 +1,23 @@
-const string1 = "ab#z"
-const string2 = "az#z"
-
-const buildString = function(string) {
-    const builtString = [];
-    for(let p = 0; p < string.length; p++) {
-        if(string[p] !== '#') {
-            builtString.push(string[p]);
-        } else {
-            builtString.pop();
-        }
-    }
-    
-    return builtString;
-}
-
-var backspaceCompare = function(S, T) {
-    const finalS = buildString(S);
-    const finalT = buildString(T);
-    
-    if(finalS.length !== finalT.length) {
-        return false
-    } else {
-        for(let p = 0; p < finalS.length; p++) {
-            if(finalS[p] !== finalT[p]) {
-                return false
-            }
-        }
-    }
-    
-    return true;
+var validPalindrome = function(s) {
+  let start = 0;
+  let end = s.length - 1;
+  while (start < end) {
+      if (s[start] !== s[end]) {
+          return validSubPalindrome(s, start + 1, end) || validSubPalindrome(s, start, end - 1);
+      }
+      start++;
+      end--;
+  }
+  return true;
 };
 
-console.log(backspaceCompare(string1, string2));
+var validSubPalindrome = function(s, start, end) {
+  while (start < end) {
+      if (s[start] !== s[end]) {
+          return false;
+      }
+      start++;
+      end--;
+  }
+  return true;
+};
