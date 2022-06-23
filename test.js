@@ -21,3 +21,6 @@ var validSubPalindrome = function(s, start, end) {
   }
   return true;
 };
+
+const s = "abccdba";
+console.log(validPalindrome(s));
