@@ -103,10 +103,14 @@ class LinkedList {
         this.tail = this.head
         let second = first.next;
         while(second) {
+            // [1, 2, 3, 4] - first = 1, tail = 1, second = 2, temp = 3, second.next = 1, first = 2, second = 3 
+            // --> [2, 3, 1, 4] - first = 2, tail = 2, second = 3, temp = 1, second.next = 1, first = 3, second = 2 
+            // --> [3, 2, 1, 4]
             const temp = second.next;
             second.next = first;
             first = second;
             second = temp;
+            console.log({"1st": first, "2nd": second, "temp": temp});
         }
         // The existing head will be turn to the end of list --> so its need should be null
         this.head.next = null;
@@ -123,8 +127,8 @@ myLinkedList.prepend(20);
 myLinkedList.prepend(3);
 console.log(myLinkedList);
 
-// myLinkedList.traverserToIndex(2);
-myLinkedList.insert(99, 77);
-myLinkedList.insert(3, 21);
+// // myLinkedList.traverserToIndex(2);
+// myLinkedList.insert(99, 77);
+// myLinkedList.insert(3, 21);
 myLinkedList.printList();
 myLinkedList.reverse();

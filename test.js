@@ -1,26 +1,59 @@
-var validPalindrome = function(s) {
-  let start = 0;
-  let end = s.length - 1;
-  while (start < end) {
-      if (s[start] !== s[end]) {
-          return validSubPalindrome(s, start + 1, end) || validSubPalindrome(s, start, end - 1);
-      }
-      start++;
-      end--;
+/*
+NOTE: The beginning portion builds our test case linked list. Scroll down to the section titled Our Solution for the code solution!
+ */
+
+class ListNode {
+  constructor(val, next = null) {
+    this.val = val;
+    this.next = next;
   }
-  return true;
+}
+// ---- Generate our linked list ----
+const linkedList = [5, 4, 3, 2, 1].reduce((acc, val) => new ListNode(val, acc), null);
+
+// ---- Generate our linked list ----
+
+const printList = (head) => {
+  if(!head) {
+    return;
+  }
+
+  console.log(head.val);
+  printList(head.next);
+}
+
+// --------- Our solution -----------
+
+var reverseBetween = function(head, m, n) {
+  let currentPos = 1, currentNode = head;
+  let start = head;
+  
+  while(currentPos < m) {
+    start = currentNode;
+    currentNode = currentNode.next;
+    currentPos++;
+  }
+  
+  let newList = null, tail = currentNode;
+  
+  while(currentPos >= m && currentPos <= n) {
+    const next = currentNode.next;
+    currentNode.next = newList;
+    newList = currentNode;
+    currentNode = next;
+    currentPos++;
+  }
+  
+  start.next = newList;
+  tail.next = currentNode;
+  
+  if(m > 1) {
+    return head
+  } else {
+    return newList;
+  }
 };
 
-var validSubPalindrome = function(s, start, end) {
-  while (start < end) {
-      if (s[start] !== s[end]) {
-          return false;
-      }
-      start++;
-      end--;
-  }
-  return true;
-};
-
-const s = "abccdba";
-console.log(validPalindrome(s));
+printList(linkedList);
+console.log('after reverse');
+printList(reverseBetween(linkedList, 2, 4));
