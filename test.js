@@ -1,41 +1,27 @@
-class ListNode {
-    constructor(val, next = null) {
-      this.val = val;
-      this.next = next;
+const string = "{()[]}"
+
+const parens = {
+    '(': ')',
+    '{' : '}',
+    '[': ']'
+}
+
+var isValid = function(s) {
+  if(s.length === 0) return true;
+  
+  const stack = [];
+  
+  for(let i = 0; i < s.length; i++)  {
+    if(parens[s[i]]) {
+      stack.push(s[i]);
+    } else {
+      const leftBracket = stack.pop();
+      const correctBracket = parens[leftBracket];
+      if(s[i] !== correctBracket) return false
     }
   }
   
-  // ---- Generate our linked list ----
-  const linkedList = [8,7,6,5,4,3,2,1].reduce((acc, val) => new ListNode(val, acc), null);
-  
-  let curr = linkedList, cycleNode;
-  while(curr.next !== null) {
-    if(curr.val === 3) {
-      cycleNode = curr;
-    }
-  
-    curr = curr.next;
-  }
-  
-  curr.next = cycleNode;
-  // ---- Generate our linked list ----
-  
-  // --------- Our solution -----------
-  const findCycle = function(head) {
-    const seenNodes = new Set();
-    let currentNode = head;
-    
-    while(!seenNodes.has(currentNode)) {
-      if(currentNode.next === null) {
-        return false;
-      }
-  
-      seenNodes.add(currentNode);
-  
-      currentNode = currentNode.next;
-    }
-  
-    return currentNode;
-  }
-  
-  console.log(findCycle(linkedList));
+  return stack.length === 0;
+};
+
+console.log(isValid(string));
