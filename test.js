@@ -1,46 +1,49 @@
-const array = [1,3,3,5,5,5,8,9];
-const targetToFind = 5;
+/*
+NOTE: The beginning portion builds our test case binary tree. Scroll down to the section titled Our Solution for the code solution!
+ */
 
-const binarySearch = (nums, left, right, target) => {
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    const foundVal = nums[mid];
-    if (foundVal === target) {
-      return mid;
-    } else if (foundVal < target) {
-      left = mid + 1;
-    } else {
-      right = mid - 1;
+// ------- Code to generate our binary tree -------
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+
+  insert(values) {
+    const queue = [this];
+    let i = 0;
+    while (queue.length > 0) {
+      let current = queue.shift();
+      for (let side of ["left", "right"]) {
+        if (!current[side]) {
+          if (values[i] !== null) {
+            current[side] = new TreeNode(values[i]);
+          }
+          i++;
+          if (i >= values.length) return this;
+        }
+        if (current[side]) queue.push(current[side]);
+      }
     }
+    return this;
   }
+}
 
-  return -1;
+const root = new TreeNode();
+root.insert([1,1,1,1,null,null,null,1,null,null,null,1,null,null]);
+
+// ------- Code to generate our binary tree -------
+
+// ------- Our Solution -------
+var maxDepth = function(node, currentDepth) {
+    if (!node) {
+      return currentDepth;
+    }
+    
+    currentDepth++;
+    
+    return Math.max(maxDepth(node.right, currentDepth), maxDepth(node.left, currentDepth));
 };
 
-const searchRange = function (nums, target) {
-  if (nums.length < 1) return [-1, -1];
-  const firstPos = binarySearch(nums, 0, nums.length - 1, target);
-
-  if (firstPos === -1) return [-1, -1];
-
-  let endPos = firstPos,
-    startPos = firstPos,
-    temp1,
-    temp2;
-
-  while (startPos !== -1) {
-    temp1 = startPos;
-    startPos = binarySearch(nums, 0, startPos - 1, target);
-  }
-  startPos = temp1;
-
-  while (endPos !== -1) {
-    temp2 = endPos;
-    endPos = binarySearch(nums, endPos + 1, nums.length - 1, target);
-  }
-  endPos = temp2;
-
-  return [startPos, endPos];
-};
-
-console.log(searchRange(array, targetToFind))
+console.log(maxDepth(root, 0));
